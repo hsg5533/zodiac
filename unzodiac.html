@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>띠별 출생년도 표</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      label {
+        font-size: 16px;
+      }
+
+      input {
+        padding: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 6px 10px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      table {
+        margin-top: 50px;
+        width: 50%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="zodiacInput">당신의 띠를 입력하세요:</label>
+    <input type="text" id="zodiacInput" />
+    <button onclick="getZodiacYears()">띠별 년도 표시</button>
+    <table>
+      <thead>
+        <tr>
+          <th>년도</th>
+          <th>띠</th>
+        </tr>
+      </thead>
+      <tbody id="zodiacTableBody"></tbody>
+    </table>
+    <script>
+      function getZodiacYears() {
+        const zodiacList = [
+          "쥐",
+          "소",
+          "호랑이",
+          "토끼",
+          "용",
+          "뱀",
+          "말",
+          "양",
+          "원숭이",
+          "닭",
+          "개",
+          "돼지",
+        ];
+        const zodiacInput = document.getElementById("zodiacInput").value;
+        const zodiacYears = [];
+
+        const zodiacIndex = zodiacList.indexOf(zodiacInput);
+
+        if (zodiacIndex === -1) {
+          alert("잘못된 띠를 입력하였습니다. 올바른 띠를 입력하세요.");
+          return;
+        }
+
+        for (let year = 1900; year <= new Date().getFullYear(); year++) {
+          if ((year - 4) % 12 === zodiacIndex) {
+            zodiacYears.push({ year, zodiac: zodiacInput });
+          }
+        }
+
+        const zodiacTableBody = document.getElementById("zodiacTableBody");
+
+        // 이전 테이블 데이터 지우기
+        while (zodiacTableBody.firstChild) {
+          zodiacTableBody.removeChild(zodiacTableBody.firstChild);
+        }
+
+        zodiacYears.forEach((yearData) => {
+          const row = document.createElement("tr");
+          const yearCell = document.createElement("td");
+          const zodiacCell = document.createElement("td");
+
+          yearCell.textContent = yearData.year;
+          zodiacCell.textContent = yearData.zodiac;
+
+          row.appendChild(yearCell);
+          row.appendChild(zodiacCell);
+
+          zodiacTableBody.appendChild(row);
+        });
+      }
+    </script>
+  </body>
+</html>
